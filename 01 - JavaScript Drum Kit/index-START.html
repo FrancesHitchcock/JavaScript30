@@ -57,36 +57,34 @@
     <audio data-key="76" src="sounds/tink.wav"></audio>
 
     <script>
-      // document.addEventListener("mousedown", (e) => handleMouseEvent(e, "add"));
-      // document.addEventListener("mouseup", (e) =>
-      //   handleMouseEvent(e, "remove")
-      // );
-
       document.addEventListener("mousedown", handleMouseEvent);
       document.addEventListener("mouseup", handleMouseEvent);
-
-      // function handleMouseEvent(e, addOrRemove) {
-      //   if (e.target.dataset.key || e.target.parentNode.dataset.key) {
-      //     const targetEl = e.target.dataset.key
-      //       ? e.target
-      //       : e.target.parentNode;
-      //     if (addOrRemove === "add") {
-      //       targetEl.classList.add("playing");
-      //     } else {
-      //       targetEl.classList.remove("playing");
-      //     }
-      //   }
-      // }
+      document.addEventListener("click", handleMouseClick);
 
       function handleMouseEvent(e) {
         if (e.target.dataset.key || e.target.parentNode.dataset.key) {
-          const targetEl = e.target.dataset.key
-            ? e.target
-            : e.target.parentNode;
+          const targetEl = getTargetEl(e);
           targetEl.classList.toggle("playing");
-
-          console.log(targetEl.dataset.key);
         }
+      }
+
+      function handleMouseClick(e) {
+        if (e.target.dataset.key || e.target.parentNode.dataset.key) {
+          const targetEl = getTargetEl(e);
+          const soundKey = targetEl.dataset.key;
+          drumRoll(soundKey);
+        }
+      }
+
+      function getTargetEl(e) {
+        return e.target.dataset.key ? e.target : e.target.parentNode;
+      }
+
+      function drumRoll(soundKey) {
+        const soundTag = document.querySelector(
+          `audio[data-key="${soundKey}"]`
+        );
+        soundTag.play();
       }
     </script>
   </body>
