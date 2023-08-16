@@ -57,34 +57,52 @@
     <audio data-key="76" src="sounds/tink.wav"></audio>
 
     <script>
-      document.addEventListener("mousedown", handleMouseEvent);
-      document.addEventListener("mouseup", handleMouseEvent);
-      document.addEventListener("click", handleMouseClick);
+      // document.addEventListener("mousedown", handleMouseEvent);
+      // document.addEventListener("mouseup", handleMouseEvent);
+      // document.addEventListener("click", handleMouseClick);
 
-      function handleMouseEvent(e) {
-        if (e.target.dataset.key || e.target.parentNode.dataset.key) {
-          const targetEl = getTargetEl(e);
-          targetEl.classList.toggle("playing");
+      // function handleMouseEvent(e) {
+      //   if (e.target.dataset.key || e.target.parentNode.dataset.key) {
+      //     const targetEl = getTargetEl(e);
+      //     targetEl.classList.toggle("playing");
+      //   }
+      // }
+
+      // function handleMouseClick(e) {
+      //   if (e.target.dataset.key || e.target.parentNode.dataset.key) {
+      //     const targetEl = getTargetEl(e);
+      //     const soundKey = targetEl.dataset.key;
+      //     drumRoll(soundKey);
+      //   }
+      // }
+
+      // function getTargetEl(e) {
+      //   return e.target.dataset.key ? e.target : e.target.parentNode;
+      // }
+
+      // function drumRoll(soundKey) {
+      //   const soundTag = document.querySelector(
+      //     `audio[data-key="${soundKey}"]`
+      //   );
+      //   soundTag.play();
+      // }
+
+      const keys = document.querySelectorAll(".key");
+
+      keys.forEach((key) => {
+        key.addEventListener("mousedown", (e) => handleMouseEvent(e, "down"));
+        key.addEventListener("mouseup", (e) => handleMouseEvent(e, "up"));
+      });
+
+      function handleMouseEvent(e, eventType) {
+        const targetKey = e.target.dataset.key ? e.target : e.target.parentNode;
+        const targetKeyValue = targetKey.dataset.key;
+        if (eventType === "down") {
+          targetKey.classList.add("playing");
+          document.querySelector(`audio[data-key="${targetKeyValue}"]`).play();
+        } else if (eventType === "up") {
+          targetKey.classList.remove("playing");
         }
-      }
-
-      function handleMouseClick(e) {
-        if (e.target.dataset.key || e.target.parentNode.dataset.key) {
-          const targetEl = getTargetEl(e);
-          const soundKey = targetEl.dataset.key;
-          drumRoll(soundKey);
-        }
-      }
-
-      function getTargetEl(e) {
-        return e.target.dataset.key ? e.target : e.target.parentNode;
-      }
-
-      function drumRoll(soundKey) {
-        const soundTag = document.querySelector(
-          `audio[data-key="${soundKey}"]`
-        );
-        soundTag.play();
       }
     </script>
   </body>
